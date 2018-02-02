@@ -1,14 +1,13 @@
 package br.edu.fib.bibliotecajavamvc.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Entity
 public class Usuario {
@@ -29,6 +28,8 @@ public class Usuario {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotEmpty
+    @Valid
     private List<UsuarioGrupo> grupos = new ArrayList<>();
 
     public Usuario() {

@@ -1,20 +1,18 @@
 package br.edu.fib.bibliotecajavamvc.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DynamicUpdate
@@ -51,6 +49,26 @@ public class Livro {
 	@Transient
 	private MultipartFile fotoUpload;
 
+	@Transient
+	private Double mediaAvaliacoes = 0d;
+
+	public Livro() {
+	}
+
+	public Livro(String titulo, String foto, Integer quantidade, String isbn, Autor autor, Double mediaAvaliacoes) {
+		this.titulo = titulo;
+		this.foto = foto;
+		this.quantidade = quantidade;
+		this.isbn = isbn;
+		this.autor = autor;
+		this.mediaAvaliacoes = mediaAvaliacoes;
+	}
+
+	public Livro(Long id, Double mediaAvaliacoes) {
+		this.id = id;
+		this.mediaAvaliacoes = mediaAvaliacoes;
+	}
+
 	public Boolean temFotoCadastrada() {
 	    return !StringUtils.isEmpty(this.foto);
     }
@@ -63,7 +81,15 @@ public class Livro {
         return getFotoUpload() != null && !StringUtils.isEmpty(getFotoUpload().getContentType()) && getFotoUpload().getContentType().equals("image/jpeg");
     }
 
-    public MultipartFile getFotoUpload() {
+	public Double getMediaAvaliacoes() {
+		return mediaAvaliacoes;
+	}
+
+	public void setMediaAvaliacoes(Double mediaAvaliacoes) {
+		this.mediaAvaliacoes = mediaAvaliacoes;
+	}
+
+	public MultipartFile getFotoUpload() {
         return fotoUpload;
     }
 
@@ -134,7 +160,8 @@ public class Livro {
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	
+
+
 	
 
 }

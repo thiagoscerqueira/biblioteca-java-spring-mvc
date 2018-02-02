@@ -3,15 +3,11 @@ package br.edu.fib.bibliotecajavamvc.service;
 import br.edu.fib.bibliotecajavamvc.model.Livro;
 import br.edu.fib.bibliotecajavamvc.repository.LivroRepository;
 import br.edu.fib.bibliotecajavamvc.storage.FotoStorage;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class LivroService {
@@ -27,7 +23,15 @@ public class LivroService {
     }
 
     public List<Livro> pesquisarLivrosSemEmprestimoVigente() {
-        return livroRepository.listaLivrosSemEmprestimoVigente();
+        List<Livro> livros = livroRepository.listaLivrosSemEmprestimoVigente();
+        List<Livro> livrosComMediaDeAvaliacoes = livroRepository.listaMediaAvaliacoesPorLivro();
+
+        livros.forEach(livro -> livro.setMediaAvaliacoes(
+                livrosComMediaDeAvaliacoes.stream().filter(livroAvaliacao -> livroAvaliacao.getId().equals(livro.getId()))
+                        .findFirst().orElse(new Livro()).getMediaAvaliacoes())
+        );
+
+        return livros;
     }
 
     public void salvar(Livro livro) {

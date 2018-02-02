@@ -1,6 +1,8 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
-import br.edu.fib.bibliotecajavamvc.model.*;
+import br.edu.fib.bibliotecajavamvc.model.Emprestimo;
+import br.edu.fib.bibliotecajavamvc.model.Livro;
+import br.edu.fib.bibliotecajavamvc.model.Review;
 import br.edu.fib.bibliotecajavamvc.repository.EmprestimoRepository;
 import br.edu.fib.bibliotecajavamvc.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class EmprestimoService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private IUsuarioService usuarioService;
+
     public void emprestaLivro(Long idLivro) {
         Livro livro = new Livro();
         livro.setId(idLivro);
@@ -26,13 +31,13 @@ public class EmprestimoService {
         Emprestimo emprestimo = new Emprestimo();
         emprestimo.setDataEmprestimo(Calendar.getInstance().getTime());
         emprestimo.setLivro(livro);
-        emprestimo.setUsuario(new Usuario(1l));
+        emprestimo.setUsuario(usuarioService.loggedUser());
 
         emprestimoRepository.save(emprestimo);
     }
 
     public List<Emprestimo> pesquisaEmprestimosDoUsuario() {
-        return emprestimoRepository.findByUsuarioOrderByDataEmprestimoDesc(new Usuario(1l));
+        return emprestimoRepository.findByUsuarioOrderByDataEmprestimoDesc(usuarioService.loggedUser());
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -42,7 +47,7 @@ public class EmprestimoService {
         emprestimoRepository.save(emprestimo);
 
         review.setLivro(emprestimo.getLivro());
-        review.setUsuario(new Usuario(1l));
+        review.setUsuario(usuarioService.loggedUser());
 
         reviewRepository.save(review);
     }

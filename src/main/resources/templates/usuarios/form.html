@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-padrao}">
 <head>
     <meta charset="UTF-8"/>
-    <title>Cadastrar Usuário</title>
+    <title>Cadastro de Usuário</title>
 </head>
 <body>
 
-<nav layout:fragment="header" aria-label="breadcrumb" role="navigation">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" th:href="@{/login}">Login</a></li>
-    </ol>
-</nav>
+<section layout:fragment="header">
+    <div th:replace="/fragments/Header :: edicao ('Usuários', '/usuarios',  'Cadastro de Usuário')"></div>
+</section>
 
-<div layout:fragment="content" class="container">
-    <form id="usuarioForm" th:action="@{/usuarios}" method="post" th:object="${usuario}" action="#">
-        <div class="form-group row">
+<section layout:fragment="conteudo">
+    <div class="container-fluid">
+        <form id="usuarioForm" th:action="@{/usuarios}" method="post" th:object="${usuario}" action="#">
+            <div th:replace="/fragments/MensagensErroValidacao :: alert"></div>
+
             <input type="hidden" th:field="*{id}"/>
 
-            <label for="staticNome" class="col-sm-2 col-form-label">Nome de usuário</label>
-            <div class="col-sm-10">
-                <input type="text" th:field="*{username}" id="staticNome" class="form-control-plaintext"/>
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+            <div class="row">
+                <div class="form-group  col-sm-12  bw-required"
+                     th:classappend="${#fields.hasErrors('username')} ? has-error">
+                    <label for="staticNome" class="control-label">Nome de usuário</label>
+                    <input type="text" th:field="*{username}" id="staticNome" class="form-control"/>
+                </div>
             </div>
 
-            <label for="staticPass" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" th:field="*{password}" id="staticPass" class="form-control-plaintext"/>
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+            <div class="row">
+                <div class="form-group  col-sm-12  bw-required" th:classappend="${#fields.hasErrors('password')} ? has-error">
+                    <label for="staticPass" class="control-label">Password</label>
+                    <input type="password" th:field="*{password}" id="staticPass" class="form-control"/>
+                </div>
             </div>
-            <input type="submit" value="Salvar"/>
-        </div>
-    </form>
-</div>
+
+            <div class="row">
+                <div class="form-group  col-sm-12  bw-required" th:classappend="${#fields.hasErrors('grupos[0].grupo')} ? has-error">
+                    <label  for="grupos[0].grupo" class="control-label">Grupo</label>
+                    <select th:field="*{grupos[0].grupo}" class="form-control" id="grupos[0].grupo">
+                        <option value="">Selecione</option>
+                            <option th:each="grupo : ${T(br.edu.fib.bibliotecajavamvc.model.Grupo).values()}"
+                                    th:value="${grupo}" th:text="${grupo.getDescricaoGrupo()}">Grupo
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</section>
 
 </body>
 </html>

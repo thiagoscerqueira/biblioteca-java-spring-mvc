@@ -1,19 +1,19 @@
 package br.edu.fib.bibliotecajavamvc.controller;
 
-import br.edu.fib.bibliotecajavamvc.model.Livro;
-import br.edu.fib.bibliotecajavamvc.repository.LivroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.edu.fib.bibliotecajavamvc.model.Grupo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class Index {
 
     @RequestMapping("/")
-    public ModelAndView home()
-    {
-        return new ModelAndView("index");
+    public String home(HttpServletRequest request) {
+        if (request.isUserInRole(Grupo.USUARIO_BIBLIOTECA.name())) {
+            return "redirect:/emprestimos";
+        }
+        return "index";
     }
 }

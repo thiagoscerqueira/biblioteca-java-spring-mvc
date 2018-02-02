@@ -35,6 +35,10 @@
                             <h3 class="panel-title text-center" th:text="${livro.titulo}"></h3>
                         </div>
                         <div class="panel-body">
+
+                                <input type="text" class="rating" data-size="xs" data-display-only="true"
+                                                             th:value="${livro.mediaAvaliacoes}"/>
+
                             <a>
                                 <img class="img-responsive center-block fotoEfeito"
                                      th:if="${livro.foto}"

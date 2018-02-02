@@ -2,6 +2,7 @@
 <html lang="pt"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <head>
@@ -31,7 +32,8 @@
     <nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand  hidden-xs" href="#">
+                <a class="navbar-brand  hidden-xs" th:href="@{/}">
+                    <i class="fa  fa-fw  fa-book"></i>
                 </a>
 
                 <ul class="nav  navbar-nav">
@@ -44,9 +46,9 @@
             </div>
 
             <ul class="nav navbar-nav  navbar-right">
-                <!--<li>
+                <li>
                     <p class="navbar-text" th:text="${#authentication.principal.username}">Usuário</p>
-                </li>-->
+                </li>
 
                 <li>
                     <a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a>
@@ -61,8 +63,7 @@
             <nav class="aw-menu  js-menu">
                 <ul class="aw-menu__list">
 
-                    <!--<li sec:authorize="hasAuthority('ROLE_ADMINISTRADOR')" class="aw-menu__item">-->
-                    <li class="aw-menu__item">
+                    <li sec:authorize="hasAuthority('ROLE_ADMINISTRADOR')" class="aw-menu__item">
                         <a href="#">
                             <i class="fa  fa-fw  fa-database"></i><span>Cadastros</span>
                             <i class="aw-menu__navigation-icon  fa"></i>
@@ -70,21 +71,35 @@
 
                         <ul class="aw-menu__list  aw-menu__list--sublist">
 
-                            <li class="aw-menu__item  aw-menu__item--link">
+                            <li sec:authorize-url="/autores" class="aw-menu__item  aw-menu__item--link">
                                 <a th:href="@{/autores}">Autores</a>
                             </li>
 
-                            <li class="aw-menu__item  aw-menu__item--link">
+                            <li sec:authorize-url="/livros" class="aw-menu__item  aw-menu__item--link">
                                 <a th:href="@{/livros}">Livros</a>
                             </li>
 
-                            <li class="aw-menu__item  aw-menu__item--link">
+                            <li sec:authorize-url="/usuarios" class="aw-menu__item  aw-menu__item--link">
                                 <a th:href="@{/usuarios}">Usuários</a>
                             </li>
+                        </ul>
+                    </li>
 
-                            <!--<li &lt;!&ndash;sec:authorize-url="/usuarios"&ndash;&gt; class="aw-menu__item  aw-menu__item&#45;&#45;link">
-                            <a th:href="@{/usuarios}">Usuários</a>
-                            </li>-->
+                    <li sec:authorize="hasAuthority('ROLE_USUARIO_BIBLIOTECA')" class="aw-menu__item">
+                        <a href="#">
+                            <i class="fa  fa-fw  fa-book"></i><span>Empréstimos</span>
+                            <i class="aw-menu__navigation-icon  fa"></i>
+                        </a>
+
+                        <ul class="aw-menu__list  aw-menu__list--sublist">
+
+                            <li sec:authorize-url="/emprestimos" class="aw-menu__item  aw-menu__item--link">
+                                <a th:href="@{/emprestimos}">Novo Empréstimo</a>
+                            </li>
+
+                            <li sec:authorize-url="/emprestimos/usuario" class="aw-menu__item  aw-menu__item--link">
+                                <a th:href="@{/emprestimos/usuario}">Meus Empréstimos / Devolução</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

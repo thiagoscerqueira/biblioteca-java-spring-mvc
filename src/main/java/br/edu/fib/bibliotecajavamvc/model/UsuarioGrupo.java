@@ -1,6 +1,7 @@
 package br.edu.fib.bibliotecajavamvc.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="USUARIO_GRUPO")
@@ -14,6 +15,7 @@ public class UsuarioGrupo {
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private Usuario usuario;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Grupo grupo;
 

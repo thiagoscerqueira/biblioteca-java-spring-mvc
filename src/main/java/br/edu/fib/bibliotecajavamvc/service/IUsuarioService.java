@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface IUsuarioService {
 
+    List<Usuario> pesquisar();
+
+    Usuario pesquisarParaEdicao(Long id);
+
     void save(Usuario usuario);
 
     Usuario findByUsername(String username);
 
-    List<Usuario> findAll();
+    Usuario loggedUser();
 }

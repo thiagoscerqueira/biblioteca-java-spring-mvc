@@ -2,6 +2,16 @@ package br.edu.fib.bibliotecajavamvc.model;
 
 public enum Grupo {
 
-    ADMINISTRADOR,
-    USUARIO_BIBLIOTECA;
+    ADMINISTRADOR("Administrador"),
+    USUARIO_BIBLIOTECA("Usuário da Biblioteca");
+
+    private String descricaoGrupo;
+
+    Grupo(String descricaoGrupo) {
+        this.descricaoGrupo = descricaoGrupo;
+    }
+
+    public String getDescricaoGrupo() {
+        return descricaoGrupo;
+    }
 }

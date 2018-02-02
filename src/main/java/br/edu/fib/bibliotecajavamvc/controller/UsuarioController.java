@@ -1,9 +1,7 @@
 package br.edu.fib.bibliotecajavamvc.controller;
 
-import br.edu.fib.bibliotecajavamvc.model.Autor;
 import br.edu.fib.bibliotecajavamvc.model.Usuario;
-import br.edu.fib.bibliotecajavamvc.repository.AutorRepository;
-import br.edu.fib.bibliotecajavamvc.repository.UsuarioRepository;
+import br.edu.fib.bibliotecajavamvc.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,11 +16,11 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioService usuarioService;
 
     @GetMapping
     public ModelAndView usuarios() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> usuarios = usuarioService.pesquisar();
         return new ModelAndView("usuarios/list", "usuarios", usuarios);
     }
 
@@ -31,25 +29,19 @@ public class UsuarioController {
         return "usuarios/form";
     }
 
-    @GetMapping("/alterar/{id}")
+    @GetMapping("/{id}")
     public ModelAndView alterar(@PathVariable("id") Long id) {
-        Usuario usuario= this.usuarioRepository.findOne(id);
+        Usuario usuario= this.usuarioService.pesquisarParaEdicao(id);
         return new ModelAndView("usuarios/form", "usuario", usuario);
     }
 
     @PostMapping
-    public ModelAndView create(@ModelAttribute @Valid Usuario usuario, BindingResult bindingResult) {
+    public ModelAndView save(@ModelAttribute @Valid Usuario usuario, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("usuarios/form");
         }
 
-        usuario = usuarioRepository.save(usuario);
-        return new ModelAndView("redirect:/usuarios");
-    }
-
-    @GetMapping("/excluir/{id}")
-    public ModelAndView excluir(@PathVariable("id") Long id) {
-        this.usuarioRepository.delete(id);
+        usuarioService.save(usuario);
         return new ModelAndView("redirect:/usuarios");
     }
 }

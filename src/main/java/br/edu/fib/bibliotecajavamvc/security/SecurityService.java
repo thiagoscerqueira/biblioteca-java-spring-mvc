@@ -1,12 +1,9 @@
 package br.edu.fib.bibliotecajavamvc.security;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
 public interface SecurityService {
 
-    String findLoggedInUsername();
+    User findLoggedInUser();
 
-    UserDetails findLoggedInUser();
-
-    void login(String username, String password);
 }
