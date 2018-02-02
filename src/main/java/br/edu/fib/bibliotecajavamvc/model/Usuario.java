@@ -34,6 +34,10 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(Long id) {
+        this.id = id;
+    }
+
     public Usuario(String username, String password, Grupo grupo) {
         this.username = username;
         this.password = password;

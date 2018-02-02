@@ -8,23 +8,7 @@
 <body>
 
 <section layout:fragment="header">
-    <div class="page-header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-10">
-                <h1>Pesquisa de Livros</h1>
-            </div>
-
-            <div class="col-xs-2">
-                <div class="aw-page-header-controls">
-                    <a class="btn  btn-default" th:href="@{/livros/novo}">
-                        <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo Livro</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+    <div th:replace="/fragments/Header :: pesquisa ('Pesquisa de Livros', '/livros/novo', 'Novo Livro')"></div>
 </section>
 
 <section layout:fragment="conteudo">
@@ -38,8 +22,7 @@
             <th>Título</th>
             <th>Quantidade de Páginas</th>
             <th>Autor</th>
-            <th></th>
-            <th></th>
+            <th class="table-col-acoes"></th>
         </tr>
         </thead>
         <tbody>
@@ -55,11 +38,13 @@
             <td th:text="${livro.quantidade}">0</td>
             <td th:if="${livro.autor != null and livro.autor.nome != null}" th:text="${livro.autor.nome}">Nenhum</td>
             <td th:if="${livro.autor == null or livro.autor.nome == null}">Nenhum</td>
-            <td>
-                <a href="#" th:href="@{'/livros/alterar/'+${livro.id}}"> Alterar </a>
-            </td>
-            <td>
-                <a href="#" th:href="@{'/livros/excluir/'+${livro.id}}"> Excluir </a>
+            <td class="text-center">
+                <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/livros/{id}(id=${livro.id})}">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </a>
+                <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/livros/excluir/{id}(id=${livro.id})}">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
             </td>
         </tr>
         </tbody>

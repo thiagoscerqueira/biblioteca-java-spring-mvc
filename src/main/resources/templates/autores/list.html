@@ -9,28 +9,7 @@
 <body>
 
 <section layout:fragment="header">
-    <div th:replace="/fragments/MensagemSucesso :: alert"></div>
-
-    <div class="page-header">
-
-        <div class="container-fluid">
-
-            <div class="row">
-                <div class="col-xs-10">
-                    <h1>Pesquisa de Autores</h1>
-                </div>
-
-                <div class="col-xs-2">
-                    <div class="aw-page-header-controls">
-                        <a class="btn  btn-default" th:href="@{/autores/novo}">
-                            <i class="glyphicon  glyphicon-plus-sign"></i> <span
-                                class="hidden-xs  hidden-sm">Novo Autor</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="/fragments/Header :: pesquisa ('Pesquisa de Autores', '/autores/novo', 'Novo Autor')"></div>
 </section>
 
 <section layout:fragment="conteudo">
@@ -55,7 +34,7 @@
                     <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/autores/{id}(id=${autor.id})}">
                         <i class="glyphicon glyphicon-pencil"></i>
                     </a>
-                    <a class="btn  btn-link  btn-xs" title="Excluir">
+                    <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/autores/excluir/{id}(id=${autor.id})}">
                         <i class="glyphicon glyphicon-remove"></i>
                     </a>
                 </td>

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        /*http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/autores*").hasRole(Grupo.ADMINISTRADOR.name())
                 .antMatchers("/livros*").hasRole(Grupo.ADMINISTRADOR.name())
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .accessDeniedPage("/403")
                     .and()
                 .sessionManagement()
-                    .invalidSessionUrl("/login");
+                    .invalidSessionUrl("/login");*/
     }
 
     @Override
@@ -58,6 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }

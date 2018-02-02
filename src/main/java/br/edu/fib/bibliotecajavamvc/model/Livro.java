@@ -8,11 +8,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
+@DynamicUpdate
 public class Livro {
 	
 	@Id
@@ -31,7 +36,8 @@ public class Livro {
 	private Integer quantidade;
 	
 	private String isbn;
-	
+
+	@NotNull
 	@ManyToOne
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Autor autor;
@@ -41,8 +47,31 @@ public class Livro {
 	
 	@OneToMany(mappedBy="livro")
 	private List<Emprestimo> emprestimos = new ArrayList<>();
-		
-	public List<Emprestimo> getEmprestimos() {
+
+	@Transient
+	private MultipartFile fotoUpload;
+
+	public Boolean temFotoCadastrada() {
+	    return !StringUtils.isEmpty(this.foto);
+    }
+
+    public Boolean fotoVazia() {
+        return getFotoUpload() != null && StringUtils.isEmpty(getFotoUpload().getOriginalFilename());
+    }
+
+    public Boolean formatoFotoValido() {
+        return getFotoUpload() != null && !StringUtils.isEmpty(getFotoUpload().getContentType()) && getFotoUpload().getContentType().equals("image/jpeg");
+    }
+
+    public MultipartFile getFotoUpload() {
+        return fotoUpload;
+    }
+
+    public void setFotoUpload(MultipartFile fotoUpload) {
+        this.fotoUpload = fotoUpload;
+    }
+
+    public List<Emprestimo> getEmprestimos() {
 		return emprestimos;
 	}
 

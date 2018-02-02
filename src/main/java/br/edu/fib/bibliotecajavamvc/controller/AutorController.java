@@ -1,9 +1,7 @@
 package br.edu.fib.bibliotecajavamvc.controller;
 
 import br.edu.fib.bibliotecajavamvc.model.Autor;
-import br.edu.fib.bibliotecajavamvc.model.Livro;
-import br.edu.fib.bibliotecajavamvc.repository.AutorRepository;
-import br.edu.fib.bibliotecajavamvc.repository.LivroRepository;
+import br.edu.fib.bibliotecajavamvc.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,11 +17,11 @@ import java.util.List;
 public class AutorController {
 
     @Autowired
-    private AutorRepository autorRepository;
+    private AutorService autorService;
 
     @GetMapping
     public ModelAndView autores() {
-        List<Autor> autores = autorRepository.findAll();
+        List<Autor> autores = autorService.pesquisar();
         return new ModelAndView("autores/list", "autores", autores);
     }
 
@@ -34,23 +32,24 @@ public class AutorController {
 
     @GetMapping("/{id}")
     public ModelAndView alterar(@PathVariable("id") Long id) {
-        Autor autor= this.autorRepository.findOne(id);
+        Autor autor = this.autorService.pesquisarParaEdicao(id);
         return new ModelAndView("autores/form", "autor", autor);
     }
 
     @PostMapping
-    public ModelAndView create(@ModelAttribute @Valid Autor autor, BindingResult bindingResult, RedirectAttributes attributes) {
+    public ModelAndView salvar(@ModelAttribute @Valid Autor autor, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("autores/form");
         }
-        autorRepository.save(autor);
+        autorService.salvar(autor);
         attributes.addFlashAttribute("mensagem", "Autor salvo com sucesso");
         return new ModelAndView("redirect:/autores");
     }
 
     @GetMapping("/excluir/{id}")
-    public ModelAndView excluir(@PathVariable("id") Long id) {
-        this.autorRepository.delete(id);
+    public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        this.autorService.excluir(id);
+        attributes.addFlashAttribute("mensagem", "Autor excluído com sucesso");
         return new ModelAndView("redirect:/autores");
     }
 }

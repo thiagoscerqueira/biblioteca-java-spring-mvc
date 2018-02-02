@@ -8,33 +8,26 @@
 <body>
 
 <section layout:fragment="header">
-    <div class="container-fluid">
-
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" th:href="@{/autores}">Autores</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Novo Autor</li>
-            </ol>
-        </nav>
-    </div>
-
+    <div th:replace="/fragments/Header :: edicao ('Autores', '/autores', 'Cadastro de Autor')"></div>
 </section>
+
 
 <section layout:fragment="conteudo">
     <div class="container-fluid">
-    <form id="autoresForm" th:action="@{/autores}" method="post" th:object="${autor}" action="#">
-        <div class="form-group row">
-            <input type="hidden" th:field="*{id}"/>
+    <form id="autoresForm" th:object="${autor}" th:action="@{/autores}" method="post"  action="#">
 
-            <label for="staticNome" class="col-sm-2 col-form-label">Nome</label>
-            <div class="col-sm-10">
-                <input type="text" th:field="*{nome}" id="staticNome" class="form-control-plaintext"/>
-                <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Error</span>
+        <div th:replace="/fragments/MensagensErroValidacao :: alert"></div>
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="row">
+            <div class="form-group  col-sm-12  bw-required" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+                <label for="nome" class="control-label">Nome</label>
+                <input type="text" th:field="*{nome}" id="nome" class="form-control" maxlength="100"/>
             </div>
         </div>
 
-        <button type="submit" class="btn  btn-primary">Salvar</button>
-
+        <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 </div>
 </section>

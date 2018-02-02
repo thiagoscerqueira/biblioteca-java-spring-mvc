@@ -3,17 +3,20 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 >
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title>AlgaWorks</title>
+    <title>Biblioteca</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/star-rating.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/brewer.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/painel.livros.css}"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +32,6 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand  hidden-xs" href="#">
-                    <img alt="AlgaWorks" th:src="@{/layout/images/logo.png}"/>
                 </a>
 
                 <ul class="nav  navbar-nav">
@@ -42,9 +44,9 @@
             </div>
 
             <ul class="nav navbar-nav  navbar-right">
-                <li>
+                <!--<li>
                     <p class="navbar-text" th:text="${#authentication.principal.username}">Usuário</p>
-                </li>
+                </li>-->
 
                 <li>
                     <a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a>
@@ -59,22 +61,30 @@
             <nav class="aw-menu  js-menu">
                 <ul class="aw-menu__list">
 
-                    <li sec:authorize="hasAuthority('ROLE_ADMINISTRADOR')" class="aw-menu__item">
+                    <!--<li sec:authorize="hasAuthority('ROLE_ADMINISTRADOR')" class="aw-menu__item">-->
+                    <li class="aw-menu__item">
                         <a href="#">
                             <i class="fa  fa-fw  fa-database"></i><span>Cadastros</span>
                             <i class="aw-menu__navigation-icon  fa"></i>
                         </a>
 
                         <ul class="aw-menu__list  aw-menu__list--sublist">
-                            <li sec:authorize-url="/livros" class="aw-menu__item  aw-menu__item--link">
-                                <a th:href="@{/livros}">Livros</a>
-                            </li>
-                            <li sec:authorize-url="/autores" class="aw-menu__item  aw-menu__item--link">
+
+                            <li class="aw-menu__item  aw-menu__item--link">
                                 <a th:href="@{/autores}">Autores</a>
                             </li>
-                            <li sec:authorize-url="/usuarios" class="aw-menu__item  aw-menu__item--link">
+
+                            <li class="aw-menu__item  aw-menu__item--link">
+                                <a th:href="@{/livros}">Livros</a>
+                            </li>
+
+                            <li class="aw-menu__item  aw-menu__item--link">
                                 <a th:href="@{/usuarios}">Usuários</a>
                             </li>
+
+                            <!--<li &lt;!&ndash;sec:authorize-url="/usuarios"&ndash;&gt; class="aw-menu__item  aw-menu__item&#45;&#45;link">
+                            <a th:href="@{/usuarios}">Usuários</a>
+                            </li>-->
                         </ul>
                     </li>
                 </ul>
@@ -90,17 +100,23 @@
 
     <footer class="aw-layout-footer  js-content">
         <div class="container-fluid">
-            <span class="aw-footer-disclaimer">&copy; 2017 AlgaWorks. Todos os direitos reservados.</span>
+            <span class="aw-footer-disclaimer">Biblioteca</span>
         </div>
     </footer>
 </div>
 
 <script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<script th:src="@{/layout/javascripts/star-rating.min.js}"></script>
+<script th:src="@{/javascripts/vendors/jquery.masknumber.min.js}"></script>
 <script th:src="@{/javascripts/vendors/jquery.mask.min.js}"></script>
 
 <script>
     jQuery('.js-moeda').mask("#.##0,00", {reverse: true});
+    jQuery('.js-numero').maskNumber({integer: true, thousands: ''});
 </script>
+
+<script layout:fragment="script"></script>
+
 </body>
 </html>

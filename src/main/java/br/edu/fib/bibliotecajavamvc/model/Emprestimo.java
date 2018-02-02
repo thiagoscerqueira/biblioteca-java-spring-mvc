@@ -2,16 +2,13 @@ package br.edu.fib.bibliotecajavamvc.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 public class Emprestimo {
 	
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -22,6 +19,9 @@ public class Emprestimo {
 	
 	@ManyToOne
 	private Livro livro;
+
+	@ManyToOne
+	private Usuario usuario;
 	
 	public Livro getLivro() {
 		return livro;
@@ -54,7 +54,12 @@ public class Emprestimo {
 	public void setDataDevolucao(Date dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
 	}
-	
-	
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 }

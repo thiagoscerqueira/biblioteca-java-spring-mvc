@@ -1,0 +1,15 @@
+.efeito {
+
+    box-shadow: 2px 2px 15px;
+}
+
+.fotoEfeito:hover {
+
+    transition: all 0.5s;
+    transform: scale(1.45);
+}
+
+.fotoEfeito {
+
+    transition: all 1s;
+}
