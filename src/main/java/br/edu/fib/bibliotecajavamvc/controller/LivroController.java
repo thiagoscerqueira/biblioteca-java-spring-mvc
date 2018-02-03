@@ -1,5 +1,6 @@
 package br.edu.fib.bibliotecajavamvc.controller;
 
+import br.edu.fib.bibliotecajavamvc.excecao.LivroPossuiAssociacoesException;
 import br.edu.fib.bibliotecajavamvc.model.Livro;
 import br.edu.fib.bibliotecajavamvc.service.AutorService;
 import br.edu.fib.bibliotecajavamvc.service.LivroService;
@@ -74,9 +75,13 @@ public class LivroController {
 
     @GetMapping("/excluir/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        this.livroService.excluir(id);
+        try {
+            this.livroService.excluir(id);
+            attributes.addFlashAttribute("mensagem", "Livro excluído com sucesso");
+        } catch (LivroPossuiAssociacoesException e) {
+            attributes.addFlashAttribute("mensagemErro", "Livro não pode ser excluído pois possui empréstimos ou reviews associados");
+        }
 
-        attributes.addFlashAttribute("mensagem", "Livro excluído com sucesso");
         return new ModelAndView("redirect:/livros");
     }
 

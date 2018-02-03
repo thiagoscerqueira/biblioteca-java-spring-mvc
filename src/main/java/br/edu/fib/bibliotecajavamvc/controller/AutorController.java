@@ -1,5 +1,6 @@
 package br.edu.fib.bibliotecajavamvc.controller;
 
+import br.edu.fib.bibliotecajavamvc.excecao.AutorPossuiLivrosAssociadosException;
 import br.edu.fib.bibliotecajavamvc.model.Autor;
 import br.edu.fib.bibliotecajavamvc.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,13 @@ public class AutorController {
 
     @GetMapping("/excluir/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        this.autorService.excluir(id);
-        attributes.addFlashAttribute("mensagem", "Autor excluído com sucesso");
+        try {
+            this.autorService.excluir(id);
+            attributes.addFlashAttribute("mensagem", "Autor excluído com sucesso");
+        } catch (AutorPossuiLivrosAssociadosException e) {
+            attributes.addFlashAttribute("mensagemErro", "Autor já possui associação com livro e não pode ser excluído.");
+        }
+
         return new ModelAndView("redirect:/autores");
     }
 }

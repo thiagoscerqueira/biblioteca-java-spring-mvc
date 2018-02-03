@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-padrao}">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Reviews do Livro</title>
+</head>
+<body>
+
+<section layout:fragment="header">
+    <div th:replace="/fragments/Header :: edicao ('Empréstimos', '/emprestimos', 'Reviews')"></div>
+</section>
+
+
+<section layout:fragment="conteudo">
+    <div class="container-fluid">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 th:text="'Reviews do livro: ' + ${livro.titulo}"></h2>
+                <label class="control-label" th:text="'Média das Avaliações: ' + ${mediaDasAvaliacoes} + ' / 5'"></label>
+                <input type="text" id="mediaDasAvaliacoes" class="rating" data-size="sm" data-display-only="true" th:value="*{mediaDasAvaliacoes}"/>
+            </div>
+        </div>
+
+        <div class="panel panel-default" th:each="review: ${reviews}">
+            <div class="panel-heading">
+                <label class="control-label" th:text="'Avaliação do Usuário ' + ${review.usuario.username}"></label>
+                <input type="text" id="avaliacao" class="rating"  data-size="xs" data-display-only="true" th:value="*{review.avaliacao}"/>
+            </div>
+            <div class="panel-body">
+                <label class="control-label">Comentário</label>
+                <p th:text="${review.comentario}"></p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

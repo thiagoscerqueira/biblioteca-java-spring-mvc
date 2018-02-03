@@ -1,5 +1,6 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
+import br.edu.fib.bibliotecajavamvc.excecao.AutorPossuiLivrosAssociadosException;
 import br.edu.fib.bibliotecajavamvc.model.Autor;
 import br.edu.fib.bibliotecajavamvc.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,11 @@ public class AutorService {
         autorRepository.save(autor);
     }
 
-    public void excluir(Long id) {
+    public void excluir(Long id) throws AutorPossuiLivrosAssociadosException {
+        if (autorRepository.autorSemLivros(id) == null) {
+            throw new AutorPossuiLivrosAssociadosException();
+        }
+
         this.autorRepository.delete(id);
     }
 

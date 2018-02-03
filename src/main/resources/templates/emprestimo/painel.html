@@ -19,7 +19,10 @@
                 </div>
 
             </div>
+
+            <h5>Clique na capa para ver as reviews dos usuários</h5>
         </div>
+
     </div>
 </section>
 
@@ -32,18 +35,20 @@
 
                     <div class="panel panel-default efeito">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center" th:text="${livro.titulo}"></h3>
+                            <h3 class="panel-title text-center"><a th:href="@{/reviews/{id} (id=${livro.id})}"
+                                                                   th:text="${livro.titulo}"></a></h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" style="min-height: 300px; max-height: 300px;">
 
-                                <input type="text" class="rating" data-size="xs" data-display-only="true"
-                                                             th:value="${livro.mediaAvaliacoes}"/>
+                            <div class="row">
+                            <input type="text" class="rating" data-size="xs" data-display-only="true"
+                                   th:value="${livro.mediaAvaliacoes}"/>
 
-                            <a>
-                                <img class="img-responsive center-block fotoEfeito"
+                            <a th:href="@{/reviews/{id} (id=${livro.id})}">
+                                <img style="min-height: 200px; max-height: 200px; width: 200px"
+                                     class="img-responsive center-block fotoEfeito"
                                      th:if="${livro.foto}"
                                      th:src="${@dadosComunsViews.getUrlFoto(livro.foto)}"
-                                     width="200px" height="200px"
                                      alt="Livro">
 
                                 <img class="img-responsive center-block fotoEfeito"
@@ -51,9 +56,9 @@
                                      th:src="@{/img/sem-foto.jpg}"
                                      width="200px" height="200px"
                                      alt="Livro">
-                            </a>
+                            </a></div>
 
-                            <button type="submit" class="btn btn-primary btn-block">Solicitar Empréstimo</button>
+                            <div class="row"><button type="submit" class="btn btn-primary btn-block">Solicitar Empréstimo</button></div>
                         </div>
                     </div>
                 </form>
