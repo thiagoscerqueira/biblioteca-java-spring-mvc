@@ -1,5 +1,11 @@
 ## Projeto Biblioteca MVC desenvolvido em Java - Spring MVC/Spring Boot
 
+ **Observação para login inicial** :
+ - Usuário Administrador
+ username: admin / password: 123456
+ - Usuário da biblioteca
+ username: usuario / password: 123456
+
 ### Funcionalidades:
 
 Administradores:
@@ -15,8 +21,7 @@ Usuários da biblioteca:
 - Área "Meus Empréstimos": possibilidade de registrar devolução cadastrando também um review do livro e avaliação em forma de rating.
 
 
-
-**Observação** : 
+ 
 
 
 ### Recursos técnicos:
