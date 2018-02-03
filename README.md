@@ -15,8 +15,8 @@ Usuários da biblioteca:
 - Empréstimos de livros através de painel apresentando a capa cadastrada de cada livro
 - Visualização da média das avaliações de cada livro em forma de rating (estrelas)
 - Visualização detalhada de cada review cadastrado ao clicar na capa do livro
-- Área "Meus Empréstimos": visualização de todos os empréstimos realizados e se existem devoluções pendentes
-- Área "Meus Empréstimos": possibilidade de registrar devolução cadastrando também um review do livro e avaliação em forma de rating.
+- Área "Meus Empréstimos": visualização de todos os empréstimos realizados pelo usuário e gerenciamento de devoluções
+- Área "Meus Empréstimos": possibilidade de registrar devolução cadastrando também um review do livro devolvido e avaliação em forma de rating.
 
 
  
