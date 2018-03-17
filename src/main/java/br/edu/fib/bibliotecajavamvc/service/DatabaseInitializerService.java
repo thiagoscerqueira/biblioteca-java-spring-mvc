@@ -1,3 +1,4 @@
+/**//*
 package br.edu.fib.bibliotecajavamvc.service;
 
 import br.edu.fib.bibliotecajavamvc.model.Grupo;
@@ -33,3 +34,4 @@ public class DatabaseInitializerService {
         }
     }
 }
+*/
