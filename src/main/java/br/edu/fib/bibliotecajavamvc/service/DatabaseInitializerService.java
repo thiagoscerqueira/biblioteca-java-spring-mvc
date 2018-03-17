@@ -20,14 +20,16 @@ public class DatabaseInitializerService {
 
     @PostConstruct
     public void initDatabase() {
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
         if (usuarioRepository.findByUsername("admin") == null) {
             usuarioRepository.save(new Usuario(
-                    "admin", passwordEncoder.encode("123456"), Grupo.ADMINISTRADOR));
+                    "admin", encode, Grupo.ADMINISTRADOR));
         }
 
-        if (usuarioRepository.findByUsername("usuario") == null) {
+            if (usuarioRepository.findByUsername("usuario") == null) {
             usuarioRepository.save(new Usuario(
-                    "usuario", passwordEncoder.encode("123456"), Grupo.USUARIO_BIBLIOTECA));
+                    "usuario", encode, Grupo.USUARIO_BIBLIOTECA));
         }
     }
 }

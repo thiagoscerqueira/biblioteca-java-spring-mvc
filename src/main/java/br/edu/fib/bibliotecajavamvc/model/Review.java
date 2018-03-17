@@ -32,7 +32,17 @@ public class Review {
 	
 	@ManyToOne
 	private Usuario usuario;
-	
+
+	public Review() {
+	}
+
+	public Review(Livro livro, Usuario usuario, int avaliacao, String comentario) {
+		this.livro = livro;
+		this.usuario = usuario;
+		this.avaliacao = avaliacao;
+		this.comentario = comentario;
+	}
+
 	public Livro getLivro() {
 		return livro;
 	}

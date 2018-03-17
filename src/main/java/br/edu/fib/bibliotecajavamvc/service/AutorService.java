@@ -19,8 +19,8 @@ public class AutorService {
         return autorRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "nome").ignoreCase()));
     }
 
-    public void salvar(Autor autor) {
-        autorRepository.save(autor);
+    public Autor salvar(Autor autor) {
+        return autorRepository.save(autor);
     }
 
     public void excluir(Long id) throws AutorPossuiLivrosAssociadosException {

@@ -24,7 +24,7 @@ public class EmprestimoService {
     @Autowired
     private IUsuarioService usuarioService;
 
-    public void emprestaLivro(Long idLivro) {
+    public Emprestimo emprestaLivro(Long idLivro) {
         Livro livro = new Livro();
         livro.setId(idLivro);
 
@@ -33,7 +33,7 @@ public class EmprestimoService {
         emprestimo.setLivro(livro);
         emprestimo.setUsuario(usuarioService.loggedUser());
 
-        emprestimoRepository.save(emprestimo);
+        return emprestimoRepository.save(emprestimo);
     }
 
     public List<Emprestimo> pesquisaEmprestimosDoUsuario() {

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @DynamicUpdate
@@ -161,7 +162,17 @@ public class Livro {
 		this.quantidade = quantidade;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Livro livro = (Livro) o;
+		return Objects.equals(id, livro.id);
+	}
 
-	
+	@Override
+	public int hashCode() {
 
+		return Objects.hash(id);
+	}
 }

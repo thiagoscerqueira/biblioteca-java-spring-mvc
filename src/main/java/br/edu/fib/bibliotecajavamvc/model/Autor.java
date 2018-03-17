@@ -29,6 +29,13 @@ public class Autor {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private List<Livro> livros = new ArrayList<>();
 
+	public Autor() {
+	}
+
+	public Autor(Long id) {
+		this.id = id;
+	}
+
 	public List<Livro> getLivros() {
 		return livros;
 	}
