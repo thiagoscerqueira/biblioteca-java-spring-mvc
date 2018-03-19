@@ -1,10 +1,9 @@
-package br.edu.fib.bibliotecajavamvc;
+package br.edu.fib.bibliotecajavamvc.random;
 
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class Password {
+public class PasswordTest {
 
     @Test
     public void printPass() {

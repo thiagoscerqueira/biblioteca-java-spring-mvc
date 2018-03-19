@@ -1,24 +1,16 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
+import br.edu.fib.bibliotecajavamvc.IntegrationTests;
 import br.edu.fib.bibliotecajavamvc.excecao.AutorPossuiLivrosAssociadosException;
 import br.edu.fib.bibliotecajavamvc.model.Autor;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class AutorServiceTest {
+public class AutorServiceTest extends IntegrationTests {
 
     @Autowired
     private AutorService autorService;
@@ -26,7 +18,7 @@ public class AutorServiceTest {
     @Test
     public void devePesquisarAutores() {
         List<Autor> listaAutores = autorService.pesquisar();
-        assertThat(listaAutores).hasSize(1);
+        assertThat(listaAutores).hasSize(2);
     }
 
     @Test
@@ -36,8 +28,6 @@ public class AutorServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveSalvarNovoAutor() {
         Autor autor = new Autor();
         autor.setNome("Novo autor");
@@ -47,8 +37,6 @@ public class AutorServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveExcluirAutorSemLivrosAssociados() throws AutorPossuiLivrosAssociadosException {
         Autor autor = new Autor();
         autor.setNome("Novo autor");
@@ -56,7 +44,7 @@ public class AutorServiceTest {
         autorService.excluir(autor.getId());
 
         List<Autor> listaAutores = autorService.pesquisar();
-        assertThat(listaAutores).hasSize(1);
+        assertThat(listaAutores).hasSize(2);
     }
 
     @Test(expected = AutorPossuiLivrosAssociadosException.class)

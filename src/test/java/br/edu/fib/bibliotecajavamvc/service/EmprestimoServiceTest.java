@@ -1,28 +1,21 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
+import br.edu.fib.bibliotecajavamvc.IntegrationTests;
 import br.edu.fib.bibliotecajavamvc.model.Emprestimo;
 import br.edu.fib.bibliotecajavamvc.model.Livro;
 import br.edu.fib.bibliotecajavamvc.model.Review;
 import br.edu.fib.bibliotecajavamvc.model.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class EmprestimoServiceTest {
+public class EmprestimoServiceTest extends IntegrationTests {
 
     @Autowired
     private EmprestimoService emprestimoService;
@@ -34,15 +27,13 @@ public class EmprestimoServiceTest {
     private Livro livro;
 
     @Before
-    public void init() {
+    public void setUp() {
         usuario = new Usuario(2L);
         livro = new Livro(1L, null);
         given(usuarioService.loggedUser()).willReturn(usuario);
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveEfetuarEmprestimoDeLivroParaOUsuarioDaBiblioteca() {
         emprestimoService.emprestaLivro(livro.getId());
         List<Emprestimo> emprestimos = emprestimoService.pesquisaEmprestimosDoUsuario();
@@ -54,8 +45,6 @@ public class EmprestimoServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveRegistrarDevolucaoDoLivro() {
         Emprestimo emprestimo = emprestimoService.emprestaLivro(livro.getId());
 

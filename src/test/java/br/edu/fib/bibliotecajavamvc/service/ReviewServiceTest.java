@@ -1,34 +1,30 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
+import br.edu.fib.bibliotecajavamvc.IntegrationTests;
 import br.edu.fib.bibliotecajavamvc.model.Emprestimo;
 import br.edu.fib.bibliotecajavamvc.model.Livro;
 import br.edu.fib.bibliotecajavamvc.model.Review;
 import br.edu.fib.bibliotecajavamvc.model.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ReviewServiceTest {
+public class ReviewServiceTest extends IntegrationTests {
 
     @Autowired
     private EmprestimoService emprestimoService;
 
     @MockBean
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     private Usuario usuario;
     private Livro livro;
@@ -39,12 +35,8 @@ public class ReviewServiceTest {
         livro = new Livro(1L, null);
         given(usuarioService.loggedUser()).willReturn(usuario);
     }
-    @Autowired
-    private ReviewService reviewService;
 
     @Test
-    @Transactional
-    @Rollback
     public void deveTrazerReviewsDoLivro() {
         criaDoisEmprestimosComDevolucao();
         List<Review> reviews = reviewService.reviewsDoLivro(livro.getId());
@@ -52,8 +44,6 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveTrazerMediasDeAvaliacoesDoLivro() {
         criaDoisEmprestimosComDevolucao();
         List<Review> reviews = reviewService.reviewsDoLivro(livro.getId());

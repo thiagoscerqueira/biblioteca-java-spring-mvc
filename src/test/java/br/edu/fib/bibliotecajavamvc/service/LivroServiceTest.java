@@ -1,24 +1,20 @@
 package br.edu.fib.bibliotecajavamvc.service;
 
+import br.edu.fib.bibliotecajavamvc.IntegrationTests;
 import br.edu.fib.bibliotecajavamvc.model.Autor;
 import br.edu.fib.bibliotecajavamvc.model.Livro;
 import br.edu.fib.bibliotecajavamvc.model.Usuario;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class LivroServiceTest {
+public class LivroServiceTest extends IntegrationTests {
 
     @Autowired
     private LivroService livroService;
@@ -52,8 +48,6 @@ public class LivroServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void deveInserirNovoLivro() {
         Livro livro =
                 new Livro("Novo Livro", null, 200, "jfdjsjf", new Autor(1L), null);
