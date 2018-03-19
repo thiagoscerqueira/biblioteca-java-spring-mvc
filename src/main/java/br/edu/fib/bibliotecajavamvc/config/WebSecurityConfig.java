@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/livros/foto/*").permitAll()
                 .antMatchers("/autores", "/autores/**").hasRole(Grupo.ADMINISTRADOR.name())
                 .antMatchers("/livros", "/livros/**").hasRole(Grupo.ADMINISTRADOR.name())
                 .antMatchers("/usuarios", "/usuarios/**").hasRole(Grupo.ADMINISTRADOR.name())
