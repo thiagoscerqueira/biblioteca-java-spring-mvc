@@ -16,13 +16,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
-@WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
 public class LivroControllerTest extends IntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void deveChamarPesquisaLivros() throws Exception {
         this.mockMvc.perform(get("/livros")
                 .accept(MediaType.TEXT_HTML))
@@ -30,6 +30,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void deveChamarNovoLivro() throws Exception {
         this.mockMvc.perform(get("/livros/novo")
                 .accept(MediaType.TEXT_HTML))
@@ -37,6 +38,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void deveChamarEdicaoLivro() throws Exception {
         this.mockMvc.perform(get("/livros/1")
                 .accept(MediaType.TEXT_HTML))
@@ -44,6 +46,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void deveSalvarNovoLivro() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
                 new byte[]{});
@@ -60,6 +63,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoNaoInformaFoto() throws Exception {
         this.mockMvc.perform(post("/livros")
                 .param("titulo","Investimentos inteligentes")
@@ -71,6 +75,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoInformaFotoComFormatoInvalido() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/png",
                 new byte[]{});
@@ -86,6 +91,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoNaoInformaTitulo() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
                 new byte[]{});
@@ -100,6 +106,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoNaoInformaQuantidade() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
                 new byte[]{});
@@ -114,6 +121,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoInformaQuantidadeComValorMenorQue10() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
                 new byte[]{});
@@ -129,6 +137,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void naoDeveSalvarNovoLivroQuandoNaoInformaAutor() throws Exception {
         MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
                 new byte[]{});
@@ -143,6 +152,7 @@ public class LivroControllerTest extends IntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMINISTRADOR"})
     public void deveExcluirLivro() throws Exception {
         this.mockMvc.perform(get("/livros/excluir/1")
                 .accept(MediaType.TEXT_HTML))
@@ -150,5 +160,45 @@ public class LivroControllerTest extends IntegrationTests {
                 .andExpect(redirectedUrl("/livros"))
                 .andExpect(flash().attribute("mensagem", "Livro excluído com sucesso"));
     }
+
+    @Test
+    @WithMockUser(username = "usuario", roles = {"USUARIO_BIBLIOTECA"})
+    public void deveProibirAcessoSeUsuarioBibliotecaAcessaPesquisaLivros() throws Exception {
+        this.mockMvc.perform(get("/livros")
+                .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "usuario", roles = {"USUARIO_BIBLIOTECA"})
+    public void deveProibirAcessoSeUsuarioBibliotecaAcessaEdicaoLivro() throws Exception {
+        this.mockMvc.perform(get("/livros/1")
+                .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "usuario", roles = {"USUARIO_BIBLIOTECA"})
+    public void deveProibirAcessoSeUsuarioBibliotecaTentaSalvarLivro() throws Exception {
+        MockMultipartFile mockedFile = new MockMultipartFile("fotoUpload", "arquivo.jpeg", "image/jpeg",
+                new byte[]{});
+
+        this.mockMvc.perform(fileUpload("/livros")
+                .file(mockedFile)
+                .param("titulo","Investimentos inteligentes")
+                .param("quantidade","20")
+                .param("autor.id","1")
+                .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "usuario", roles = {"USUARIO_BIBLIOTECA"})
+    public void deveProibirAcessoSeUsuarioBibliotecaTentaExcluirLivro() throws Exception {
+        this.mockMvc.perform(get("/livros/excluir/1")
+                .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isForbidden());
+    }
+
 
 }
