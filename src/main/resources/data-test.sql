@@ -8,3 +8,5 @@ insert into livro(id, titulo, QUANTIDADE_PAGINAS, autor_id) values (1, 'OO para 
 insert into livro(id, titulo, QUANTIDADE_PAGINAS, autor_id) values (2, 'TDD para mestres', 100, 1);
 
 insert into autor(id, nome) values (2, 'Outro autor');
+
+insert into emprestimo(id, data_emprestimo, data_devolucao, livro_id, usuario_id) values (1, sysdate - 1, null, 2, 1);

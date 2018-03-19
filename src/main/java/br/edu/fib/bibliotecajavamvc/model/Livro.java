@@ -75,7 +75,7 @@ public class Livro {
     }
 
     public Boolean fotoVazia() {
-        return getFotoUpload() != null && StringUtils.isEmpty(getFotoUpload().getOriginalFilename());
+        return (getFotoUpload() == null) || (getFotoUpload() != null && StringUtils.isEmpty(getFotoUpload().getOriginalFilename()));
     }
 
     public Boolean formatoFotoValido() {
