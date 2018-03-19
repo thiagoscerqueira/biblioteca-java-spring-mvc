@@ -9,4 +9,7 @@ insert into livro(id, titulo, QUANTIDADE_PAGINAS, autor_id) values (2, 'TDD para
 
 insert into autor(id, nome) values (2, 'Outro autor');
 
-insert into emprestimo(id, data_emprestimo, data_devolucao, livro_id, usuario_id) values (1, sysdate - 1, null, 2, 1);
+insert into emprestimo(id, data_emprestimo, data_devolucao, livro_id, usuario_id) values (1, sysdate - 1, null, 2, 2);
+insert into emprestimo(id, data_emprestimo, data_devolucao, livro_id, usuario_id) values (2, sysdate - 7, sysdate-2, 2, 2);
+
+insert into review(id, avaliacao, comentario, livro_id, usuario_id) VALUES (1, 3, 'bom', 2, 2);
