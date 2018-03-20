@@ -28,3 +28,4 @@ Usuários da biblioteca:
 - Spring Boot/Spring MVC/Spring Data JPA
 - Template Bootstrap
 - Spring Security (autenticação e autorização)
+- Testes automatizados dos controllers, services e testes funcionais utilizando Selenium. 
